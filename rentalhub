@@ -1,0 +1,167 @@
+# ============================================================
+# RENTALHUB - EQUIPMENT RENTAL PLATFORM
+# ============================================================
+
+equipment = [
+    {
+        "id": 101,
+        "name": "Canon Camera",
+        "category": "Photography",
+        "price": 1000,
+        "available": True
+    },
+    {
+        "id": 102,
+        "name": "Epson Projector",
+        "category": "Electronics",
+        "price": 800,
+        "available": True
+    },
+    {
+        "id": 103,
+        "name": "JBL Speaker",
+        "category": "Audio",
+        "price": 500,
+        "available": True
+    },
+    {
+        "id": 104,
+        "name": "Drilling Machine",
+        "category": "Tools",
+        "price": 400,
+        "available": True
+    }
+]
+
+
+def show_equipment():
+    print("\n" + "=" * 75)
+    print("                    AVAILABLE EQUIPMENT")
+    print("=" * 75)
+
+    print(f"{'ID':<8}{'Equipment':<22}{'Category':<18}{'Price/Day':<15}{'Status'}")
+    print("-" * 75)
+
+    for item in equipment:
+        status = "Available" if item["available"] else "Rented"
+
+        print(
+            f"{item['id']:<8}"
+            f"{item['name']:<22}"
+            f"{item['category']:<18}"
+            f"₹{item['price']:<14}"
+            f"{status}"
+        )
+
+
+def search_equipment():
+    keyword = input("\nEnter equipment name or category: ").lower()
+
+    found = False
+
+    print("\nSearch Results")
+    print("-" * 60)
+
+    for item in equipment:
+        if (keyword in item["name"].lower()
+                or keyword in item["category"].lower()):
+
+            status = "Available" if item["available"] else "Rented"
+
+            print(f"ID       : {item['id']}")
+            print(f"Name     : {item['name']}")
+            print(f"Category : {item['category']}")
+            print(f"Price    : ₹{item['price']}/day")
+            print(f"Status   : {status}")
+            print("-" * 60)
+
+            found = True
+
+    if not found:
+        print("No equipment found.")
+
+
+def rent_equipment():
+    try:
+        equipment_id = int(input("\nEnter Equipment ID: "))
+
+        selected = None
+
+        for item in equipment:
+            if item["id"] == equipment_id:
+                selected = item
+                break
+
+        if selected is None:
+            print("❌ Invalid Equipment ID.")
+            return
+
+        if not selected["available"]:
+            print("❌ Sorry! This equipment is already rented.")
+            return
+
+        days = int(input("Enter number of rental days: "))
+
+        if days <= 0:
+            print("❌ Number of days must be greater than 0.")
+            return
+
+        total = selected["price"] * days
+
+        print("\n" + "=" * 50)
+        print("                 BOOKING SUMMARY")
+        print("=" * 50)
+        print(f"Equipment       : {selected['name']}")
+        print(f"Rental Price    : ₹{selected['price']} / day")
+        print(f"Rental Days     : {days}")
+        print(f"Total Amount    : ₹{total}")
+        print("=" * 50)
+
+        confirm = input("Confirm booking? (yes/no): ").lower()
+
+        if confirm == "yes":
+            selected["available"] = False
+            print("\n✅ BOOKING SUCCESSFUL!")
+            print(f"Thank you for using RentalHub.")
+        else:
+            print("\nBooking cancelled.")
+
+    except ValueError:
+        print("❌ Please enter a valid number.")
+
+
+def main():
+    while True:
+        print("\n")
+        print("=" * 55)
+        print("             RENTALHUB")
+        print("        EQUIPMENT RENTAL PLATFORM")
+        print("=" * 55)
+
+        print("1. View Equipment")
+        print("2. Search Equipment")
+        print("3. Rent Equipment")
+        print("4. Exit")
+
+        choice = input("\nEnter your choice: ")
+
+        if choice == "1":
+            show_equipment()
+
+        elif choice == "2":
+            search_equipment()
+
+        elif choice == "3":
+            rent_equipment()
+
+        elif choice == "4":
+            print("\nThank you for using RentalHub!")
+            break
+
+        else:
+            print("❌ Invalid choice. Please try again.")
+
+
+# Start the application
+if __name__ == "__main__":
+    main()
