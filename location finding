@@ -1,0 +1,14 @@
+from geopy.geocoders import Nominatim
+
+geolocator = Nominatim(user_agent="location_finder")
+
+place = input("Enter city/place: ")
+
+location = geolocator.geocode(place)
+
+if location:
+    print("Location:", location.address)
+    print("Latitude:", location.latitude)
+    print("Longitude:", location.longitude)
+else:
+    print("Location not found")
